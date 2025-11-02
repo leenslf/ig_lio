@@ -752,11 +752,12 @@ void Process() {
   // // Setp 5: Send to rviz for visualization
   Eigen::Matrix4d result_pose = lio_ptr->GetCurrentPose();
 
-  // // odometry message
-  auto nanosec_part = static_cast<uint32_t>((sensor_measurement.lidar_end_time_ - static_cast<uint64_t>(sensor_measurement.lidar_end_time_)) * 1e9);
-  auto sec_part = static_cast<int32_t>(sensor_measurement.lidar_end_time_);
-  // Create or update the rclcpp::Time object
-  rclcpp::Time current_time_stamp = rclcpp::Time(sec_part, nanosec_part);
+  // // // odometry message
+  // auto nanosec_part = static_cast<uint32_t>((sensor_measurement.lidar_end_time_ - static_cast<uint64_t>(sensor_measurement.lidar_end_time_)) * 1e9);
+  // auto sec_part = static_cast<int32_t>(sensor_measurement.lidar_end_time_);
+  // // Create or update the rclcpp::Time object
+  // rclcpp::Time current_time_stamp = rclcpp::Time(sec_part, nanosec_part);
+  rclcpp::Time current_time_stamp = this->get_clock()->now();
   nav_msgs::msg::Odometry odom_msg;
   odom_msg.header.frame_id = this->odom_frame;
   odom_msg.child_frame_id = this->robot_frame;
@@ -811,8 +812,9 @@ void Process() {
   sensor_msgs::msg::PointCloud2 scan_msg;
   pcl::toROSMsg(*trans_cloud, scan_msg);
   scan_msg.header.frame_id = this->odom_frame;
-  scan_msg.header.stamp.sec = sec_part;
-  scan_msg.header.stamp.nanosec = nanosec_part;
+  // scan_msg.header.stamp.sec = sec_part;
+  // scan_msg.header.stamp.nanosec = nanosec_part;
+  scan_msg.header.stamp = this->get_clock()->now();
   current_scan_pub_->publish(scan_msg);
   // publish keyframe path and scan
   static bool is_first_keyframe = true;

@@ -19,39 +19,33 @@ def launch_setup(context, *args, **kwargs):
     map_name = LaunchConfiguration('map_name').perform(context)
     map_location = LaunchConfiguration('map_location').perform(context)
 
-    ig_lio_node =   Node(
+    ig_lio_node = Node(
         package='ig_lio',
         executable='ig_lio_node',
         name='ig_lio_node',
         output='screen',
-        parameters=[param_path],  # Pass the parameter file path directly
+        parameters=[param_path, {'use_sim_time': True}],
     )
-    
-    ig_lio_map_node =  Node(
+    ig_lio_map_node = Node(
         package='ig_lio',
         executable='ig_lio_map_node',
         name='ig_lio_map_node',
         output='screen',
-        parameters=[param_path, {'map/map_name': map_name}, {'map/map_location': map_location}],  # Pass the parameter file path directly
+        parameters=[param_path, {'use_sim_time': True}],
     )
+
 
     # map_to_odom_tf = Node(
     #     package='tf2_ros',
     #     executable='static_transform_publisher',
     #     name='world_to_map',
-    #     arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'lio_odom']
-    # ) remove this later once we add gps 
-    map_to_odom_tf = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='map_to_odom',
-        arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'odom']
-    )
+    #     arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'odom']
+    # ) 
 
     return [
         ig_lio_node,
-        ig_lio_map_node,
-        map_to_odom_tf
+        ig_lio_map_node
+        # ,map_to_odom_tf
     ]
 def generate_launch_description():
 
