@@ -8,8 +8,8 @@
     odom/lidar_type: velodyne # livox velodyne ouster
 
     #frames
-    odom/odom_frame: lio_odom
-    odom/robot_frame: base_link
+    odom/odom_frame: odom
+    odom/robot_frame: base_footprint
     odom/imu_frame: imu_link
     odom/lidar_frame: velodyne
     odom/min_radius: 0.1
@@ -61,5 +61,4 @@
     #for map
     # map/save_map_path: /home/agilex/humble_ws #do not put / at the end of line
     # map/map_name: jfe
-    map/map_frame: lio_odom
-
+    map/map_frame: map

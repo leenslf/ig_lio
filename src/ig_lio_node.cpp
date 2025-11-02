@@ -111,7 +111,7 @@ private:
     this->declare_parameter<std::string>("odom/lidar_type", "velodyne");
 
     this->declare_parameter<std::string>("odom/odom_frame","odom");
-    this->declare_parameter<std::string>("odom/robot_frame","base_link");
+    this->declare_parameter<std::string>("odom/robot_frame","base_footprint");
     this->declare_parameter<std::string>("odom/imu_frame", "imu_link");
     this->declare_parameter<std::string>("odom/lidar_frame","velodyne");
     this->declare_parameter<std::string>("map/map_frame","odom" );
@@ -327,7 +327,7 @@ private:
         imu_topic, 10, std::bind(&IG_LIO_NODE::ImuCallBack, this, _1));
     if (lidar_type_ == LidarType::LIVOX) {
       cloud_sub_ = nullptr;
-      livox_sub_ = this->create_subscription<livox_ros_driver2::msg::CustomMsg>(
+      livox_sub_ = this->create_subscription<livox_interfaces::msg::CustomMsg>(
         lidar_topic, 10, std::bind(&IG_LIO_NODE::LivoxCloudCallBack, this, std::placeholders::_1));
     } else {
       livox_sub_ = nullptr;
@@ -427,7 +427,7 @@ void CloudCallBack(const sensor_msgs::msg::PointCloud2::SharedPtr msg) {
 
 // // process livox
 
-void LivoxCloudCallBack(const livox_ros_driver2::msg::CustomMsg::SharedPtr msg) {
+void LivoxCloudCallBack(const livox_interfaces::msg::CustomMsg::SharedPtr msg) {
   static double last_lidar_timestamp = 0.0;
   static CloudPtr temp_cloud_ptr(new CloudType());
   static bool first_scan_flag = true;
@@ -968,7 +968,7 @@ void Process() {
 
   // Subscribers
   rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_sub_;
-  rclcpp::Subscription<livox_ros_driver2::msg::CustomMsg>::SharedPtr livox_sub_;
+  rclcpp::Subscription<livox_interfaces::msg::CustomMsg>::SharedPtr livox_sub_;
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_sub_;
 
 

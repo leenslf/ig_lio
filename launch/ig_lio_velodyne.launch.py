@@ -35,11 +35,17 @@ def launch_setup(context, *args, **kwargs):
         parameters=[param_path, {'map/map_name': map_name}, {'map/map_location': map_location}],  # Pass the parameter file path directly
     )
 
+    # map_to_odom_tf = Node(
+    #     package='tf2_ros',
+    #     executable='static_transform_publisher',
+    #     name='world_to_map',
+    #     arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'lio_odom']
+    # ) remove this later once we add gps 
     map_to_odom_tf = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='world_to_map',
-        arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'lio_odom']
+        name='map_to_odom',
+        arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'odom']
     )
 
     return [

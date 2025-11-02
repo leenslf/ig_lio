@@ -4,7 +4,7 @@
 extern Timer timer;
 
 void PointCloudPreprocess::Process(
-    const livox_ros_driver2::msg::CustomMsg::SharedPtr msg,
+    const livox_interfaces::msg::CustomMsg::SharedPtr msg,
     pcl::PointCloud<PointType>::Ptr& cloud_out,
     const double last_start_time) {
   double time_offset =
