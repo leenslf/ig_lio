@@ -24,7 +24,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(PCL REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(livox_interfaces REQUIRED)
+
 find_package(TBB REQUIRED)
 
 # Optionally, handle any custom find_package modules like 'glog.cmake'
@@ -48,7 +48,7 @@ set(dependencies
   tf2
   pcl_conversions
   TBB
-  livox_interfaces
+
   std_srvs
   tf2_geometry_msgs
 )
